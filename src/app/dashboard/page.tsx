@@ -30,6 +30,8 @@ import {
     Dumbbell,
     Cloud,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Download } from "lucide-react";
 
 // Icon mapping untuk kategori
 const categoryIconMap: Record<string, React.ReactNode> = {
@@ -196,7 +198,7 @@ export default function DashboardPage() {
             {/* Summary Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {/* Total Saldo */}
-                <Card className="bg-gradient-to-br from-emerald-500 to-cyan-500 border-0 text-white">
+                <Card className="bg-primary border-0 text-primary-foreground">
                     <CardHeader className="pb-2">
                         <CardTitle className="text-sm font-medium opacity-90 flex items-center gap-2">
                             <Wallet className="w-4 h-4" />
@@ -462,6 +464,84 @@ export default function DashboardPage() {
                     </Card>
                 </div>
             </div>
+
+            {/* Export Section */}
+            <Card>
+                <CardHeader className="pb-3">
+                    <CardTitle className="text-base flex items-center gap-2">
+                        <Download className="w-4 h-4" />
+                        Export Data
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <div className="flex flex-col sm:flex-row gap-3">
+                        <div className="flex-1 p-4 rounded-lg bg-muted/50 border border-border">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="font-medium text-sm">Export JSON</p>
+                                    <p className="text-xs text-muted-foreground">Semua data lengkap</p>
+                                </div>
+                                <Button
+                                    size="sm"
+                                    variant="outline"
+                                    onClick={() => {
+                                        const data = {
+                                            transactions,
+                                            budgets,
+                                            subscriptions,
+                                            exportedAt: new Date().toISOString(),
+                                        };
+                                        const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+                                        const url = URL.createObjectURL(blob);
+                                        const a = document.createElement("a");
+                                        a.href = url;
+                                        a.download = `dompetku-export-${new Date().toISOString().split("T")[0]}.json`;
+                                        a.click();
+                                        URL.revokeObjectURL(url);
+                                    }}
+                                >
+                                    <Download className="w-4 h-4" />
+                                </Button>
+                            </div>
+                        </div>
+                        <div className="flex-1 p-4 rounded-lg bg-muted/50 border border-border">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="font-medium text-sm">Export CSV</p>
+                                    <p className="text-xs text-muted-foreground">Transaksi untuk Excel</p>
+                                </div>
+                                <Button
+                                    size="sm"
+                                    variant="outline"
+                                    onClick={() => {
+                                        const headers = ["Tanggal", "Deskripsi", "Kategori", "Tipe", "Jumlah"];
+                                        const rows = transactions.map((t) => [
+                                            t.transaction_date,
+                                            t.description || "",
+                                            t.category?.name || "",
+                                            t.type,
+                                            t.amount.toString(),
+                                        ]);
+                                        const csv = [headers, ...rows].map((row) => row.join(",")).join("\n");
+                                        const blob = new Blob([csv], { type: "text/csv" });
+                                        const url = URL.createObjectURL(blob);
+                                        const a = document.createElement("a");
+                                        a.href = url;
+                                        a.download = `dompetku-transaksi-${new Date().toISOString().split("T")[0]}.csv`;
+                                        a.click();
+                                        URL.revokeObjectURL(url);
+                                    }}
+                                >
+                                    <Download className="w-4 h-4" />
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-3">
+                        Total: {transactions.length} transaksi • {budgets.length} budget • {subscriptions.length} langganan
+                    </p>
+                </CardContent>
+            </Card>
         </div>
     );
 }

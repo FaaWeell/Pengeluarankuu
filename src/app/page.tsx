@@ -3,74 +3,37 @@ import {
   Wallet,
   PieChart,
   Bell,
-  Repeat,
   Target,
-  Shield,
   ArrowRight,
-  Check,
-  TrendingUp,
   Github,
+  Sparkles,
 } from "lucide-react";
-
-const features = [
-  {
-    icon: Wallet,
-    title: "Kelola Transaksi",
-    description: "Catat pemasukan dan pengeluaran dengan mudah, lengkap dengan kategori dan tag.",
-  },
-  {
-    icon: PieChart,
-    title: "Anggaran Pintar",
-    description: "Buat anggaran per kategori dan pantau progress spending kamu secara real-time.",
-  },
-  {
-    icon: Bell,
-    title: "Pengingat Tagihan",
-    description: "Jangan pernah lupa bayar tagihan dengan notifikasi otomatis.",
-  },
-  {
-    icon: Repeat,
-    title: "Langganan Tracker",
-    description: "Pantau semua subscription kamu dari Netflix hingga Spotify dalam satu tempat.",
-  },
-  {
-    icon: Target,
-    title: "Target Keuangan",
-    description: "Set financial goals dan track progress tabunganmu menuju target.",
-  },
-  {
-    icon: Shield,
-    title: "Privasi Terjamin",
-    description: "Data kamu aman dengan enkripsi end-to-end dan autentikasi yang kuat.",
-  },
-];
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted">
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+    <div className="min-h-screen bg-background">
+      {/* Simple Nav */}
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-sm border-b border-border">
+        <div className="container mx-auto px-6 h-14 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-cyan-500 flex items-center justify-center">
-              <Wallet className="w-4 h-4 text-white" />
+            <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center">
+              <Wallet className="w-4 h-4 text-primary-foreground" />
             </div>
-            <span className="font-bold text-lg">DompetKu</span>
+            <span className="font-semibold">DompetKu</span>
           </Link>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <a
-              href="https://github.com/fajri"
+              href="https://github.com/FaaWeell"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+              className="p-2 text-muted-foreground hover:text-foreground transition-colors"
             >
-              <Github className="w-4 h-4" />
-              <span className="hidden sm:inline">GitHub</span>
+              <Github className="w-5 h-5" />
             </a>
             <Link
               href="/login"
-              className="px-4 py-2 text-sm font-medium rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+              className="px-4 py-1.5 text-sm font-medium rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
             >
               Masuk
             </Link>
@@ -78,164 +41,145 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4">
-        <div className="container mx-auto max-w-5xl text-center">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-sm font-medium mb-6">
-            <TrendingUp className="w-4 h-4" />
-            Personal Expense Tracker
+      {/* Hero - Simple & Clean */}
+      <section className="pt-28 pb-16 px-6">
+        <div className="container mx-auto max-w-2xl text-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent text-accent-foreground text-xs font-medium mb-6">
+            <Sparkles className="w-3 h-3" />
+            Side project
           </div>
 
-          <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
-            Kelola Keuanganmu <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-cyan-500">
-              dengan Lebih Mudah
-            </span>
+          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4 leading-tight">
+            Tracking pengeluaran,<br />
+            tanpa ribet.
           </h1>
 
-          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            DompetKu membantu kamu melacak pengeluaran, mengatur anggaran,
-            dan mencapai tujuan finansialmu dengan dashboard yang intuitif.
+          <p className="text-muted-foreground mb-8 max-w-md mx-auto">
+            App sederhana buat catat uang masuk keluar.
+            Gratis, data disimpan di browser, gak perlu sign up macem-macem.
           </p>
 
-          <div className="flex items-center justify-center gap-4">
+          <div className="flex items-center justify-center gap-3">
             <Link
               href="/login"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-medium hover:from-emerald-600 hover:to-cyan-600 transition-all shadow-lg shadow-emerald-500/30"
+              className="px-5 py-2.5 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors"
             >
-              Mulai Sekarang
-              <ArrowRight className="w-4 h-4" />
+              Mulai Tracking
             </Link>
             <a
-              href="https://github.com/fajri"
+              href="https://github.com/FaaWeell"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-border text-foreground font-medium hover:bg-muted transition-colors"
-            >
-              <Github className="w-5 h-5" />
-              Lihat di GitHub
-            </a>
-          </div>
-
-          {/* Dashboard Preview */}
-          <div className="mt-16 relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 blur-3xl -z-10"></div>
-            <div className="rounded-2xl border border-border bg-card shadow-2xl overflow-hidden">
-              <div className="p-6 bg-gradient-to-r from-emerald-500/10 to-cyan-500/10">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div className="p-4 rounded-xl bg-gradient-to-br from-emerald-500 to-cyan-500 text-white">
-                    <div className="flex items-center gap-2 text-sm opacity-90 mb-1">
-                      <Wallet className="w-4 h-4" />
-                      Total Saldo
-                    </div>
-                    <div className="text-xl md:text-2xl font-bold">Rp15,750,000</div>
-                  </div>
-                  <div className="p-4 rounded-xl bg-card border">
-                    <div className="text-sm text-muted-foreground mb-1">Pemasukan</div>
-                    <div className="text-lg md:text-xl font-bold text-green-600">Rp8,500,000</div>
-                  </div>
-                  <div className="p-4 rounded-xl bg-card border">
-                    <div className="text-sm text-muted-foreground mb-1">Pengeluaran</div>
-                    <div className="text-lg md:text-xl font-bold text-red-600">Rp4,250,000</div>
-                  </div>
-                  <div className="p-4 rounded-xl bg-card border">
-                    <div className="text-sm text-muted-foreground mb-1">Tabungan</div>
-                    <div className="text-lg md:text-xl font-bold">Rp4,250,000</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section id="features" className="py-20 px-4 bg-muted/50">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Fitur Lengkap untuk Keuangan Pribadi</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Semua yang kamu butuhkan untuk mengelola keuangan dalam satu aplikasi
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((feature, index) => (
-              <div
-                key={index}
-                className="p-6 rounded-xl bg-card border border-border hover:shadow-lg hover:border-primary/20 transition-all group"
-              >
-                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 flex items-center justify-center mb-4 group-hover:from-emerald-500/20 group-hover:to-cyan-500/20 transition-colors">
-                  <feature.icon className="w-6 h-6 text-emerald-600" />
-                </div>
-                <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
-                <p className="text-muted-foreground text-sm">{feature.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 px-4">
-        <div className="container mx-auto max-w-4xl">
-          <div className="rounded-2xl bg-gradient-to-r from-emerald-500 to-cyan-500 p-8 md:p-12 text-center text-white">
-            <h2 className="text-3xl font-bold mb-4">Mulai Kelola Keuanganmu Hari Ini</h2>
-            <p className="opacity-90 mb-6 max-w-xl mx-auto">
-              Aplikasi personal expense tracker yang simpel dan mudah digunakan.
-            </p>
-
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
-              <Link
-                href="/login"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-white text-emerald-600 font-medium hover:bg-white/90 transition-colors"
-              >
-                Masuk Sekarang
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-
-            <div className="flex items-center justify-center gap-6 text-sm opacity-90">
-              <span className="flex items-center gap-1">
-                <Check className="w-4 h-4" />
-                Data lokal
-              </span>
-              <span className="flex items-center gap-1">
-                <Check className="w-4 h-4" />
-                Privasi terjaga
-              </span>
-              <span className="flex items-center gap-1">
-                <Check className="w-4 h-4" />
-                Open source
-              </span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="py-8 px-4 border-t border-border">
-        <div className="container mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded bg-gradient-to-br from-emerald-400 to-cyan-500 flex items-center justify-center">
-              <Wallet className="w-3 h-3 text-white" />
-            </div>
-            <span className="font-semibold">DompetKu</span>
-          </div>
-          <div className="flex items-center gap-4">
-            <a
-              href="https://github.com/fajri"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1"
+              className="px-5 py-2.5 rounded-lg border border-border text-foreground font-medium hover:bg-muted transition-colors flex items-center gap-2"
             >
               <Github className="w-4 h-4" />
-              GitHub
+              Source
             </a>
           </div>
-          <p className="text-sm text-muted-foreground">
-            © 2026 DompetKu. Made by Fajri.
+        </div>
+      </section>
+
+      {/* Preview Card */}
+      <section className="px-6 pb-16">
+        <div className="container mx-auto max-w-3xl">
+          <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="p-4 rounded-lg bg-primary text-primary-foreground">
+                <div className="text-xs opacity-80 mb-1">Saldo</div>
+                <div className="text-lg font-bold">Rp2.500.000</div>
+              </div>
+              <div className="p-4 rounded-lg bg-muted">
+                <div className="text-xs text-muted-foreground mb-1">Masuk</div>
+                <div className="text-lg font-bold text-green-600">+5jt</div>
+              </div>
+              <div className="p-4 rounded-lg bg-muted">
+                <div className="text-xs text-muted-foreground mb-1">Keluar</div>
+                <div className="text-lg font-bold text-red-500">-2.5jt</div>
+              </div>
+              <div className="p-4 rounded-lg bg-muted">
+                <div className="text-xs text-muted-foreground mb-1">Target</div>
+                <div className="text-lg font-bold">75%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features - Minimal */}
+      <section className="px-6 py-16 bg-muted/30">
+        <div className="container mx-auto max-w-3xl">
+          <h2 className="text-xl font-semibold text-center mb-10">Yang bisa dilakuin</h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="flex gap-3">
+              <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                <Wallet className="w-4 h-4 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-medium mb-1">Catat transaksi</h3>
+                <p className="text-sm text-muted-foreground">Masuk keluar duit, tinggal masukin aja</p>
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                <PieChart className="w-4 h-4 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-medium mb-1">Lihat breakdown</h3>
+                <p className="text-sm text-muted-foreground">Grafiknya keliatan duit habis kemana</p>
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                <Bell className="w-4 h-4 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-medium mb-1">Track subscription</h3>
+                <p className="text-sm text-muted-foreground">Netflix, Spotify, dll biar gak lupa bayar</p>
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                <Target className="w-4 h-4 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-medium mb-1">Set target</h3>
+                <p className="text-sm text-muted-foreground">Mau nabung berapa, progress-nya berapa</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA - Simple */}
+      <section className="px-6 py-16">
+        <div className="container mx-auto max-w-xl text-center">
+          <h2 className="text-xl font-semibold mb-3">Yuk, mulai tracking</h2>
+          <p className="text-muted-foreground text-sm mb-6">
+            Data disimpan di browser kamu. Gak ada server, gak ada yang ngintip.
+          </p>
+          <Link
+            href="/login"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors"
+          >
+            Masuk
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+      </section>
+
+      {/* Footer - Minimal */}
+      <footer className="px-6 py-6 border-t border-border">
+        <div className="container mx-auto max-w-3xl flex items-center justify-between">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <Wallet className="w-4 h-4" />
+            DompetKu
+          </div>
+          <p className="text-xs text-muted-foreground">
+            by Fajri
           </p>
         </div>
       </footer>

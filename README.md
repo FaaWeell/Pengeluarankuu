@@ -8,13 +8,13 @@ Gue butuh aplikasi buat tracking pengeluaran sehari-hari yang gak ribet. Kebanya
 
 ## Fitur
 
-- 📝 **Catat Transaksi** - Input pemasukan & pengeluaran dengan kategori
-- 📊 **Dashboard** - Lihat ringkasan keuangan dengan grafik
-- 💰 **Budget** - Set anggaran per kategori biar gak overspending
-- 📅 **Subscriptions** - Track langganan (Netflix, Spotify, dll)
-- 🎯 **Goals** - Target tabungan dengan progress bar
-- 🌙 **Dark Mode** - Bisa ganti tema sesuai mood
-- 📱 **Responsive** - Bisa dibuka di HP atau desktop
+-  **Catat Transaksi** - Input pemasukan & pengeluaran dengan kategori
+-  **Dashboard** - Lihat ringkasan keuangan dengan grafik
+-  **Budget** - Set anggaran per kategori biar gak overspending
+-  **Subscriptions** - Track langganan (Netflix, Spotify, dll)
+-  **Goals** - Target tabungan dengan progress bar
+-  **Dark Mode** - Bisa ganti tema sesuai mood
+-  **Responsive** - Bisa dibuka di HP atau desktop
 
 ## Tech Stack
 
@@ -31,7 +31,7 @@ Gue butuh aplikasi buat tracking pengeluaran sehari-hari yang gak ribet. Kebanya
 
 ```bash
 # Clone repo
-git clone https://github.com/fajri/dompetku.git
+git clone https://github.com/FaaWeell/dompetku.git
 
 # Install dependencies
 npm install
