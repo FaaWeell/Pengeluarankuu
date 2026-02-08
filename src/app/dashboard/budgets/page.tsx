@@ -56,7 +56,8 @@ import { useAuth } from "@/context";
 
 export default function BudgetsPage() {
     const { user } = useAuth();
-    const userKey = user?.name ? user.name.toLowerCase().replace(/\s+/g, '-') : 'guest';
+    // Use user ID for isolation
+    const userKey = user?.id || 'guest';
 
     const [budgets, setBudgets, isLoaded] = useLocalStorage<Budget[]>(`dompetku-budgets-${userKey}`, emptyBudgets);
     const [showModal, setShowModal] = React.useState(false);

@@ -26,7 +26,8 @@ export function useTransactions() {
     const { user } = useAuth(); // Get current user
 
     // Create keys based on username, fallback to "default" if not logged in (though typically protected)
-    const userKey = user?.name ? user.name.toLowerCase().replace(/\s+/g, '-') : 'guest';
+    // Use user ID for isolation
+    const userKey = user?.id || 'guest';
 
     const [transactions, setTransactions, isLoaded] = useLocalStorage<Transaction[]>(
         `dompetku-transactions-${userKey}`,

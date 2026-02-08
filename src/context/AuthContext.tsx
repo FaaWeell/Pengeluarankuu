@@ -2,66 +2,107 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
+interface User {
+    id: string;
+    name: string;
+    pin: string;
+    email: string; // Keep for compatibility/display
+    createdAt: string;
+}
+
 interface AuthContextType {
     isAuthenticated: boolean;
-    user: { name: string; email: string } | null;
-    login: (name: string) => boolean;
+    user: User | null;
+    login: (name: string, pin: string) => { success: boolean; message?: string };
+    register: (name: string, pin: string) => { success: boolean; message?: string };
     logout: () => void;
     isLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Hardcoded credentials removed - using dynamic simple auth
-// const VALID_EMAIL = "fajri@gmail.com";
-// const VALID_PASSWORD = "bijikuda12";
-
 export function AuthProvider({ children }: { children: ReactNode }) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    // User now stores name instead of just email, but we'll map name to email for compatibility if needed
-    // or just change the type. For minimal breakage, let's allow 'email' to be the identifier for now,
-    // or better, update the type to match the new simple auth.
-    // The plan said "Update User type to include name". Let's do that.
-    const [user, setUser] = useState<{ name: string; email: string } | null>(null);
+    const [user, setUser] = useState<User | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        // Check if user is already logged in
-        const stored = localStorage.getItem("dompetku-current-user");
+        const stored = localStorage.getItem("dompetku-current-session");
         if (stored) {
             try {
                 const data = JSON.parse(stored);
-                if (data.name) {
+                if (data && data.id) {
                     setIsAuthenticated(true);
                     setUser(data);
                 }
             } catch {
-                localStorage.removeItem("dompetku-current-user");
+                localStorage.removeItem("dompetku-current-session");
             }
         }
         setIsLoading(false);
     }, []);
 
-    const login = (name: string): boolean => {
-        if (name.trim().length > 0) {
-            const newUser = { name, email: `${name.toLowerCase()}@local.user` }; // Mock email for compatibility
-            setIsAuthenticated(true);
-            setUser(newUser);
-            localStorage.setItem("dompetku-current-user", JSON.stringify(newUser));
-            return true;
+    const getUsers = (): User[] => {
+        try {
+            return JSON.parse(localStorage.getItem("dompetku-users") || "[]");
+        } catch {
+            return [];
         }
-        return false;
+    };
+
+    const register = (name: string, pin: string): { success: boolean; message?: string } => {
+        if (!name.trim() || pin.length !== 6) {
+            return { success: false, message: "Nama dan PIN (6 digit) harus diisi" };
+        }
+
+        const users = getUsers();
+        // Check for exact duplicate credentials (name + pin)
+        const duplicate = users.find(u => u.name.toLowerCase() === name.toLowerCase() && u.pin === pin);
+        if (duplicate) {
+            return { success: false, message: "Akun dengan nama dan PIN ini sudah ada" };
+        }
+
+        const newUser: User = {
+            id: crypto.randomUUID(),
+            name: name.trim(),
+            pin,
+            email: `${name.toLowerCase().replace(/\s+/g, '.')}@local.user`,
+            createdAt: new Date().toISOString()
+        };
+
+        const updatedUsers = [...users, newUser];
+        localStorage.setItem("dompetku-users", JSON.stringify(updatedUsers));
+
+        // Auto login
+        loginUser(newUser);
+        return { success: true };
+    };
+
+    const login = (name: string, pin: string): { success: boolean; message?: string } => {
+        const users = getUsers();
+        const found = users.find(u => u.name.toLowerCase() === name.toLowerCase() && u.pin === pin);
+
+        if (found) {
+            loginUser(found);
+            return { success: true };
+        }
+        return { success: false, message: "Nama atau PIN salah" };
+    };
+
+    const loginUser = (userData: User) => {
+        setIsAuthenticated(true);
+        setUser(userData);
+        localStorage.setItem("dompetku-current-session", JSON.stringify(userData));
     };
 
     const logout = () => {
         setIsAuthenticated(false);
         setUser(null);
-        localStorage.removeItem("dompetku-current-user");
+        localStorage.removeItem("dompetku-current-session");
     };
 
     return (
-        // @ts-ignore - Ignoring type mismatch for now, we will update the interface next
-        <AuthContext.Provider value={{ isAuthenticated, user, login, logout, isLoading }}>
+        <AuthContext.Provider value={{ isAuthenticated, user, login, register, logout, isLoading }}>
             {children}
         </AuthContext.Provider>
     );

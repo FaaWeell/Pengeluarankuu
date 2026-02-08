@@ -60,7 +60,8 @@ import { useAuth } from "@/context";
 
 export default function GoalsPage() {
     const { user } = useAuth();
-    const userKey = user?.name ? user.name.toLowerCase().replace(/\s+/g, '-') : 'guest';
+    // Use user ID for isolation
+    const userKey = user?.id || 'guest';
 
     const [goals, setGoals, isLoaded] = useLocalStorage<Goal[]>(`dompetku-goals-${userKey}`, emptyGoals);
     const [showModal, setShowModal] = React.useState(false);

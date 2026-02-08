@@ -58,7 +58,8 @@ import { useAuth } from "@/context";
 
 export default function SubscriptionsPage() {
     const { user } = useAuth();
-    const userKey = user?.name ? user.name.toLowerCase().replace(/\s+/g, '-') : 'guest';
+    // Use user ID for isolation
+    const userKey = user?.id || 'guest';
 
     const [subscriptions, setSubscriptions, isLoaded] = useLocalStorage<Subscription[]>(
         `dompetku-subscriptions-${userKey}`,

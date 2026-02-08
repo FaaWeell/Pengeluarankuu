@@ -48,8 +48,8 @@ export default function SettingsPage() {
     const { user } = useAuth();
     const { theme, setTheme, resolvedTheme } = useTheme();
 
-    // Create keys based on username
-    const userKey = user?.name ? user.name.toLowerCase().replace(/\s+/g, '-') : 'guest';
+    // Create keys based on user ID
+    const userKey = user?.id || 'guest';
 
     // Initialize profile with auth user data if available
     const initialProfile = {
