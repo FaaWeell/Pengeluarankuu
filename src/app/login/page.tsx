@@ -15,8 +15,7 @@ export default function LoginPage() {
     const { login, isAuthenticated, isLoading: authLoading } = useAuth();
 
     const [isLoading, setIsLoading] = React.useState(false);
-    const [email, setEmail] = React.useState("");
-    const [password, setPassword] = React.useState("");
+    const [name, setName] = React.useState("");
     const [error, setError] = React.useState("");
 
     React.useEffect(() => {
@@ -32,12 +31,12 @@ export default function LoginPage() {
 
         await new Promise((resolve) => setTimeout(resolve, 400));
 
-        const success = login(email, password);
+        const success = login(name);
 
         if (success) {
             router.push("/dashboard");
         } else {
-            setError("Email atau password salah");
+            setError("Nama tidak boleh kosong");
             setIsLoading(false);
         }
     };
@@ -61,7 +60,7 @@ export default function LoginPage() {
                     </Link>
                     <CardTitle className="text-xl">Masuk</CardTitle>
                     <CardDescription className="text-sm">
-                        Masukkan email dan password
+                        Masukkan nama untuk melanjutkan
                     </CardDescription>
                 </CardHeader>
 
@@ -75,26 +74,15 @@ export default function LoginPage() {
                         )}
 
                         <div className="space-y-2">
-                            <Label htmlFor="email" className="text-sm">Email</Label>
+                            <Label htmlFor="name" className="text-sm">Nama Lengkap</Label>
                             <Input
-                                id="email"
-                                type="email"
-                                placeholder="email@example.com"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                id="name"
+                                type="text"
+                                placeholder="Masukkan nama anda"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
                                 required
-                            />
-                        </div>
-
-                        <div className="space-y-2">
-                            <Label htmlFor="password" className="text-sm">Password</Label>
-                            <Input
-                                id="password"
-                                type="password"
-                                placeholder="••••••••"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
+                                autoFocus
                             />
                         </div>
 
@@ -106,7 +94,7 @@ export default function LoginPage() {
                             {isLoading ? (
                                 <Loader2 className="w-4 h-4 animate-spin" />
                             ) : (
-                                "Masuk"
+                                "Masuk / Buat Akun"
                             )}
                         </Button>
                     </form>

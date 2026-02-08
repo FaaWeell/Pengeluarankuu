@@ -56,8 +56,13 @@ const colorOptions = [
     "#10b981", "#3b82f6", "#a855f7", "#f97316", "#ec4899", "#eab308", "#ef4444", "#14b8a6"
 ];
 
+import { useAuth } from "@/context";
+
 export default function GoalsPage() {
-    const [goals, setGoals, isLoaded] = useLocalStorage<Goal[]>("dompetku-goals", emptyGoals);
+    const { user } = useAuth();
+    const userKey = user?.name ? user.name.toLowerCase().replace(/\s+/g, '-') : 'guest';
+
+    const [goals, setGoals, isLoaded] = useLocalStorage<Goal[]>(`dompetku-goals-${userKey}`, emptyGoals);
     const [showModal, setShowModal] = React.useState(false);
     const [showAddFundsModal, setShowAddFundsModal] = React.useState(false);
     const [selectedGoalId, setSelectedGoalId] = React.useState<string | null>(null);

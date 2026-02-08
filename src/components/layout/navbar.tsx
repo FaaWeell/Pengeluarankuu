@@ -43,7 +43,7 @@ export function Navbar() {
         router.push("/");
     };
 
-    const username = user?.email?.split("@")[0] || "User";
+    const username = user?.name || user?.email?.split("@")[0] || "User";
 
     return (
         <header className="fixed top-0 right-0 left-0 lg:left-64 h-14 border-b border-border bg-card/95 backdrop-blur-sm flex items-center justify-between px-4 lg:px-6 z-30">

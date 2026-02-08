@@ -52,8 +52,13 @@ const iconMap: Record<string, React.ReactNode> = {
     heart: <Heart className="w-5 h-5" />,
 };
 
+import { useAuth } from "@/context";
+
 export default function BudgetsPage() {
-    const [budgets, setBudgets, isLoaded] = useLocalStorage<Budget[]>("dompetku-budgets", emptyBudgets);
+    const { user } = useAuth();
+    const userKey = user?.name ? user.name.toLowerCase().replace(/\s+/g, '-') : 'guest';
+
+    const [budgets, setBudgets, isLoaded] = useLocalStorage<Budget[]>(`dompetku-budgets-${userKey}`, emptyBudgets);
     const [showModal, setShowModal] = React.useState(false);
     const [editingId, setEditingId] = React.useState<string | null>(null);
     const [formName, setFormName] = React.useState("");

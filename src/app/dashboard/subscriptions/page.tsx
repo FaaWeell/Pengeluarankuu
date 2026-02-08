@@ -54,9 +54,14 @@ const iconMap: Record<string, React.ReactNode> = {
 
 const categories = ["Streaming", "Music", "Internet", "Fitness", "Storage", "News", "Gaming"];
 
+import { useAuth } from "@/context";
+
 export default function SubscriptionsPage() {
+    const { user } = useAuth();
+    const userKey = user?.name ? user.name.toLowerCase().replace(/\s+/g, '-') : 'guest';
+
     const [subscriptions, setSubscriptions, isLoaded] = useLocalStorage<Subscription[]>(
-        "dompetku-subscriptions",
+        `dompetku-subscriptions-${userKey}`,
         emptySubscriptions
     );
     const [showModal, setShowModal] = React.useState(false);

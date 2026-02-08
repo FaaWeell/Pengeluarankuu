@@ -42,9 +42,26 @@ const defaultProfile: UserProfile = {
     language: "id",
 };
 
+import { useAuth } from "@/context";
+
 export default function SettingsPage() {
+    const { user } = useAuth();
     const { theme, setTheme, resolvedTheme } = useTheme();
-    const [profile, setProfile, isLoaded] = useLocalStorage<UserProfile>("dompetku-profile", defaultProfile);
+
+    // Create keys based on username
+    const userKey = user?.name ? user.name.toLowerCase().replace(/\s+/g, '-') : 'guest';
+
+    // Initialize profile with auth user data if available
+    const initialProfile = {
+        ...defaultProfile,
+        name: user?.name || defaultProfile.name,
+        email: user?.email || defaultProfile.email
+    };
+
+    const [profile, setProfile, isLoaded] = useLocalStorage<UserProfile>(
+        `dompetku-profile-${userKey}`,
+        initialProfile
+    );
     const [activeSection, setActiveSection] = React.useState("profile");
     const [isSaving, setIsSaving] = React.useState(false);
     const [showSuccess, setShowSuccess] = React.useState(false);
@@ -62,10 +79,11 @@ export default function SettingsPage() {
         setIsExporting(true);
 
         // Get all data from localStorage
-        const transactions = JSON.parse(localStorage.getItem("dompetku-transactions") || "[]");
-        const budgets = JSON.parse(localStorage.getItem("dompetku-budgets") || "[]");
-        const subscriptions = JSON.parse(localStorage.getItem("dompetku-subscriptions") || "[]");
-        const goals = JSON.parse(localStorage.getItem("dompetku-goals") || "[]");
+        // Get all data from localStorage
+        const transactions = JSON.parse(localStorage.getItem(`dompetku-transactions-${userKey}`) || "[]");
+        const budgets = JSON.parse(localStorage.getItem(`dompetku-budgets-${userKey}`) || "[]");
+        const subscriptions = JSON.parse(localStorage.getItem(`dompetku-subscriptions-${userKey}`) || "[]");
+        const goals = JSON.parse(localStorage.getItem(`dompetku-goals-${userKey}`) || "[]");
 
         const allData = {
             exportDate: new Date().toISOString(),
@@ -117,10 +135,12 @@ export default function SettingsPage() {
     const handleClearData = () => {
         if (window.confirm("Yakin ingin menghapus SEMUA data? Aksi ini tidak dapat dibatalkan!")) {
             if (window.confirm("PERINGATAN TERAKHIR: Semua transaksi, anggaran, dan data lainnya akan hilang. Lanjutkan?")) {
-                localStorage.removeItem("dompetku-transactions");
-                localStorage.removeItem("dompetku-budgets");
-                localStorage.removeItem("dompetku-subscriptions");
-                localStorage.removeItem("dompetku-goals");
+                localStorage.removeItem(`dompetku-transactions-${userKey}`);
+                localStorage.removeItem(`dompetku-budgets-${userKey}`);
+                localStorage.removeItem(`dompetku-subscriptions-${userKey}`);
+                localStorage.removeItem(`dompetku-goals-${userKey}`);
+                localStorage.removeItem(`dompetku-categories-${userKey}`);
+                localStorage.removeItem(`dompetku-profile-${userKey}`);
                 window.location.reload();
             }
         }
@@ -163,8 +183,8 @@ export default function SettingsPage() {
                                     key={section.id}
                                     onClick={() => setActiveSection(section.id)}
                                     className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-colors ${activeSection === section.id
-                                            ? "bg-primary text-primary-foreground"
-                                            : "hover:bg-muted"
+                                        ? "bg-primary text-primary-foreground"
+                                        : "hover:bg-muted"
                                         }`}
                                 >
                                     <section.icon className="w-4 h-4" />
@@ -267,8 +287,8 @@ export default function SettingsPage() {
                                         <button
                                             onClick={() => setTheme("light")}
                                             className={`p-4 rounded-xl border-2 transition-all ${theme === "light"
-                                                    ? "border-primary bg-primary/5"
-                                                    : "border-border hover:border-primary/50"
+                                                ? "border-primary bg-primary/5"
+                                                : "border-border hover:border-primary/50"
                                                 }`}
                                         >
                                             <div className="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-2">
@@ -283,8 +303,8 @@ export default function SettingsPage() {
                                         <button
                                             onClick={() => setTheme("dark")}
                                             className={`p-4 rounded-xl border-2 transition-all ${theme === "dark"
-                                                    ? "border-primary bg-primary/5"
-                                                    : "border-border hover:border-primary/50"
+                                                ? "border-primary bg-primary/5"
+                                                : "border-border hover:border-primary/50"
                                                 }`}
                                         >
                                             <div className="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center mx-auto mb-2">
@@ -299,8 +319,8 @@ export default function SettingsPage() {
                                         <button
                                             onClick={() => setTheme("system")}
                                             className={`p-4 rounded-xl border-2 transition-all ${theme === "system"
-                                                    ? "border-primary bg-primary/5"
-                                                    : "border-border hover:border-primary/50"
+                                                ? "border-primary bg-primary/5"
+                                                : "border-border hover:border-primary/50"
                                                 }`}
                                         >
                                             <div className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-100 to-slate-800 flex items-center justify-center mx-auto mb-2">

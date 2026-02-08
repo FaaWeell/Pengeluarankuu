@@ -2,6 +2,7 @@
 
 import { useCallback, useMemo } from "react";
 import { useLocalStorage } from "./useLocalStorage";
+import { useAuth } from "@/context";
 import { Transaction, Category, TransactionType } from "@/lib/types";
 
 // Default categories
@@ -22,11 +23,19 @@ const defaultCategories: Category[] = [
 const emptyTransactions: Transaction[] = [];
 
 export function useTransactions() {
+    const { user } = useAuth(); // Get current user
+
+    // Create keys based on username, fallback to "default" if not logged in (though typically protected)
+    const userKey = user?.name ? user.name.toLowerCase().replace(/\s+/g, '-') : 'guest';
+
     const [transactions, setTransactions, isLoaded] = useLocalStorage<Transaction[]>(
-        "dompetku-transactions",
+        `dompetku-transactions-${userKey}`,
         emptyTransactions
     );
-    const [categories] = useLocalStorage<Category[]>("dompetku-categories", defaultCategories);
+    const [categories] = useLocalStorage<Category[]>(
+        `dompetku-categories-${userKey}`,
+        defaultCategories
+    );
 
     // Add transaction
     const addTransaction = useCallback(
@@ -34,7 +43,7 @@ export function useTransactions() {
             const newTransaction: Transaction = {
                 ...transaction,
                 id: crypto.randomUUID(),
-                user_id: "local",
+                user_id: user?.name || "local",
                 created_at: new Date().toISOString(),
             };
             setTransactions((prev) => [newTransaction, ...prev]);
